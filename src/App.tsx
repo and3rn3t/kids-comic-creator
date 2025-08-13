@@ -82,7 +82,7 @@ function App() {
         setPhotos(current => [...current, newPhoto])
       }
     })
-    toast.success('Photos added! 📸')
+    toast.success('Photos uploaded successfully')
   }
 
   const handleDrop = (e: React.DragEvent, panelId: string) => {
@@ -90,7 +90,7 @@ function App() {
     if (draggedPhoto) {
       setCurrentComic(prev => ({ ...prev, [panelId]: draggedPhoto }))
       setDraggedPhoto(null)
-      toast.success('Photo added to panel! ✨')
+      toast.success('Photo added to panel')
     }
   }
 
@@ -109,14 +109,14 @@ function App() {
     }
 
     setComics(current => [...current, comic])
-    toast.success('Comic saved! 🎉')
+    toast.success('Comic saved successfully')
   }
 
   const shareComic = (comicId: string) => {
     const shareUrl = `${window.location.origin}?comic=${comicId}`
     navigator.clipboard.writeText(shareUrl)
     setShareDialog(comicId)
-    toast.success('Link copied! 📋')
+    toast.success('Share link copied to clipboard')
   }
 
   const getPhotoUrl = (photoId: string) => {
@@ -124,24 +124,24 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 font-ui">
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-secondary/20 font-ui">
       <div className="container mx-auto p-6 max-w-6xl">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-comic font-bold text-primary mb-2 flex items-center justify-center gap-2">
-            <Sparkles className="text-accent" weight="fill" />
-            Comic Creator
-            <Sparkles className="text-accent" weight="fill" />
+          <h1 className="text-4xl font-comic font-bold text-foreground mb-2 flex items-center justify-center gap-3">
+            <div className="w-2 h-2 bg-accent rounded-full animate-pulse" />
+            Comic Studio
+            <div className="w-2 h-2 bg-primary rounded-full animate-pulse delay-300" />
           </h1>
           <p className="text-lg text-muted-foreground font-ui">
-            Upload photos, pick a template, and create amazing comics!
+            Create professional comics with your photos
           </p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Photo Library */}
-          <Card className="p-6">
-            <h2 className="text-xl font-comic font-semibold mb-4 text-foreground">Your Photos</h2>
+          <Card className="p-6 backdrop-blur-sm border-border/50">
+            <h2 className="text-xl font-comic font-semibold mb-4 text-foreground">Photo Library</h2>
             
             <input
               ref={fileInputRef}
@@ -154,18 +154,18 @@ function App() {
             
             <Button
               onClick={() => fileInputRef.current?.click()}
-              className="w-full mb-4 bg-accent hover:bg-accent/90 text-accent-foreground font-medium"
+              className="w-full mb-4 bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
               size="lg"
             >
               <Upload className="mr-2" />
-              Add Photos
+              Upload Photos
             </Button>
 
             <div className="grid grid-cols-2 gap-3 max-h-80 overflow-y-auto">
               {photos.length === 0 ? (
                 <div className="col-span-2 text-center py-8 text-muted-foreground">
-                  <ImageIcon size={48} className="mx-auto mb-2 opacity-50" />
-                  <p>No photos yet! Add some to get started.</p>
+                  <ImageIcon size={48} className="mx-auto mb-2 opacity-40" />
+                  <p className="text-sm">Upload photos to get started</p>
                 </div>
               ) : (
                 photos.map(photo => (
@@ -173,7 +173,7 @@ function App() {
                     key={photo.id}
                     draggable
                     onDragStart={() => setDraggedPhoto(photo.id)}
-                    className="aspect-square bg-muted rounded-lg overflow-hidden cursor-grab active:cursor-grabbing hover:scale-105 transition-transform border-2 border-transparent hover:border-primary/50"
+                    className="aspect-square bg-muted rounded-lg overflow-hidden cursor-grab active:cursor-grabbing hover:scale-[1.02] transition-all duration-200 border border-border/50 hover:border-primary/40 hover:shadow-md"
                   >
                     <img
                       src={photo.url}
@@ -187,32 +187,32 @@ function App() {
           </Card>
 
           {/* Comic Editor */}
-          <Card className="p-6">
-            <h2 className="text-xl font-comic font-semibold mb-4 text-foreground">Create Your Comic</h2>
+          <Card className="p-6 backdrop-blur-sm border-border/50">
+            <h2 className="text-xl font-comic font-semibold mb-4 text-foreground">Comic Editor</h2>
             
             {!selectedTemplate ? (
               <div className="space-y-4">
-                <p className="text-muted-foreground mb-4">Choose a template to start:</p>
+                <p className="text-muted-foreground mb-4 text-sm">Select a layout:</p>
                 {templates.map(template => (
                   <Button
                     key={template.id}
                     onClick={() => setSelectedTemplate(template)}
                     variant="outline"
-                    className="w-full h-20 flex flex-col gap-1 hover:bg-primary/10 hover:border-primary"
+                    className="w-full h-16 flex items-center gap-3 hover:bg-primary/5 hover:border-primary/50 transition-all duration-200"
                   >
-                    <span className="font-comic font-medium">{template.name}</span>
-                    <div className={`grid ${template.className} gap-1 w-12 h-8`}>
+                    <div className={`grid ${template.className} gap-1 w-10 h-6`}>
                       {template.panels.map(panel => (
-                        <div key={panel.id} className="bg-muted rounded-sm" />
+                        <div key={panel.id} className="bg-muted rounded-sm border border-border/30" />
                       ))}
                     </div>
+                    <span className="font-comic font-medium text-sm">{template.name}</span>
                   </Button>
                 ))}
               </div>
             ) : (
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="font-comic font-medium text-lg">{selectedTemplate.name}</span>
+                  <span className="font-comic font-medium">{selectedTemplate.name}</span>
                   <Button
                     onClick={() => {
                       setSelectedTemplate(null)
@@ -220,12 +220,13 @@ function App() {
                     }}
                     variant="outline"
                     size="sm"
+                    className="text-xs"
                   >
-                    Change Template
+                    Change Layout
                   </Button>
                 </div>
 
-                <div className={`grid ${selectedTemplate.className} gap-3 aspect-square bg-white rounded-lg p-4 border-2 border-dashed border-muted-foreground/30`}>
+                <div className={`grid ${selectedTemplate.className} gap-2 aspect-square bg-card rounded-lg p-3 border border-border`}>
                   {selectedTemplate.panels.map(panel => (
                     <div
                       key={panel.id}
@@ -233,23 +234,23 @@ function App() {
                       onDragOver={(e) => e.preventDefault()}
                       onDragEnter={(e) => e.preventDefault()}
                       className={`
-                        relative bg-muted rounded-lg border-2 border-dashed border-muted-foreground/50
+                        relative bg-muted/50 rounded-md border border-dashed border-muted-foreground/30
                         flex items-center justify-center text-muted-foreground
                         transition-all duration-200
-                        ${draggedPhoto ? 'border-primary bg-primary/10' : ''}
-                        ${currentComic[panel.id] ? 'border-solid border-transparent' : ''}
+                        ${draggedPhoto ? 'border-primary/60 bg-primary/5' : ''}
+                        ${currentComic[panel.id] ? 'border-solid border-border' : ''}
                       `}
                     >
                       {currentComic[panel.id] ? (
                         <img
                           src={getPhotoUrl(currentComic[panel.id])}
                           alt={`Panel ${panel.id}`}
-                          className="w-full h-full object-cover rounded-md"
+                          className="w-full h-full object-cover rounded-sm"
                         />
                       ) : (
                         <div className="text-center">
-                          <ImageIcon size={24} className="mx-auto mb-1 opacity-50" />
-                          <p className="text-xs">Drop photo here</p>
+                          <ImageIcon size={20} className="mx-auto mb-1 opacity-40" />
+                          <p className="text-xs">Drop photo</p>
                         </div>
                       )}
                     </div>
@@ -259,45 +260,47 @@ function App() {
                 <Button
                   onClick={saveComic}
                   disabled={Object.keys(currentComic).length === 0}
-                  className="w-full bg-primary hover:bg-primary/90 font-medium"
+                  className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-medium"
                   size="lg"
                 >
-                  Save Comic! 🎉
+                  Save Comic
                 </Button>
               </div>
             )}
           </Card>
 
           {/* Saved Comics */}
-          <Card className="p-6">
-            <h2 className="text-xl font-comic font-semibold mb-4 text-foreground">Your Comics</h2>
+          <Card className="p-6 backdrop-blur-sm border-border/50">
+            <h2 className="text-xl font-comic font-semibold mb-4 text-foreground">My Comics</h2>
             
             <div className="space-y-3 max-h-80 overflow-y-auto">
               {comics.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground">
-                  <Sparkles size={48} className="mx-auto mb-2 opacity-50" />
-                  <p>No comics yet! Create your first one.</p>
+                  <div className="w-12 h-12 bg-muted rounded-lg mx-auto mb-2 flex items-center justify-center">
+                    <Sparkles size={24} className="opacity-40" />
+                  </div>
+                  <p className="text-sm">Your comics will appear here</p>
                 </div>
               ) : (
                 comics.map(comic => {
                   const template = templates.find(t => t.id === comic.templateId)
                   return (
-                    <Card key={comic.id} className="p-4 border bg-card">
+                    <Card key={comic.id} className="p-4 border border-border/50 hover:border-border transition-colors">
                       <div className="flex items-center justify-between mb-2">
                         <h3 className="font-comic font-medium text-sm">{comic.title}</h3>
                         <Button
                           onClick={() => shareComic(comic.id)}
                           size="sm"
-                          className="bg-accent hover:bg-accent/90 text-accent-foreground"
+                          className="bg-primary hover:bg-primary/90 text-primary-foreground h-7 px-2"
                         >
-                          <Share size={16} />
+                          <Share size={14} />
                         </Button>
                       </div>
                       
                       {template && (
-                        <div className={`grid ${template.className} gap-1 w-full h-16 mb-2`}>
+                        <div className={`grid ${template.className} gap-1 w-full h-14 mb-2`}>
                           {template.panels.map(panel => (
-                            <div key={panel.id} className="bg-muted rounded overflow-hidden">
+                            <div key={panel.id} className="bg-muted/50 rounded border border-border/30 overflow-hidden">
                               {comic.panels[panel.id] && (
                                 <img
                                   src={getPhotoUrl(comic.panels[panel.id])}
@@ -311,7 +314,7 @@ function App() {
                       )}
                       
                       <p className="text-xs text-muted-foreground">
-                        Created {new Date(comic.createdAt).toLocaleDateString()}
+                        {new Date(comic.createdAt).toLocaleDateString()}
                       </p>
                     </Card>
                   )
@@ -326,24 +329,25 @@ function App() {
       <Dialog open={!!shareDialog} onOpenChange={() => setShareDialog(null)}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="font-comic">Share Your Comic! 🎉</DialogTitle>
+            <DialogTitle className="font-comic">Share Your Comic</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <p className="text-sm text-muted-foreground">
-              Your comic link has been copied! Share it with friends and family.
+              Copy this link to share your comic with friends.
             </p>
             <div className="flex items-center space-x-2">
               <input
                 readOnly
                 value={`${window.location.origin}?comic=${shareDialog}`}
-                className="flex-1 px-3 py-2 text-sm bg-muted rounded-md"
+                className="flex-1 px-3 py-2 text-sm bg-muted border border-border rounded-md font-mono"
               />
               <Button
                 onClick={() => {
                   navigator.clipboard.writeText(`${window.location.origin}?comic=${shareDialog}`)
-                  toast.success('Copied again! 📋')
+                  toast.success('Link copied!')
                 }}
                 size="sm"
+                className="bg-primary hover:bg-primary/90"
               >
                 <Copy size={16} />
               </Button>
