@@ -1,1 +1,75 @@
-/* This is where custom CSS goes */
+@import 'tailwindcss';
+@import "tw-animate-css";
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+}
+
+:root {
+  --radius: 0.75rem;
+  
+  /* Kid-friendly color palette */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.2 0 0);
+  --card: oklch(0.98 0 0);
+  --card-foreground: oklch(0.2 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0 0);
+  
+  /* Vibrant blue primary */
+  --primary: oklch(0.6 0.15 250);
+  --primary-foreground: oklch(1 0 0);
+  
+  /* Sunny yellow secondary */
+  --secondary: oklch(0.8 0.12 85);
+  --secondary-foreground: oklch(0.2 0 0);
+  
+  /* Muted states */
+  --muted: oklch(0.95 0 0);
+  --muted-foreground: oklch(0.5 0 0);
+  
+  /* Electric orange accent */
+  --accent: oklch(0.7 0.15 45);
+  --accent-foreground: oklch(1 0 0);
+  
+  /* Warm purple for interactive elements */
+  --destructive: oklch(0.55 0.12 300);
+  --destructive-foreground: oklch(1 0 0);
+  
+  --border: oklch(0.9 0 0);
+  --input: oklch(0.95 0 0);
+  --ring: oklch(0.6 0.15 250);
+}
+
+/* Typography styles */
+.font-comic {
+  font-family: 'Fredoka', system-ui, sans-serif;
+}
+
+.font-ui {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Custom animations */
+@keyframes bounce-in {
+  0% { transform: scale(0.3) rotate(-5deg); opacity: 0; }
+  50% { transform: scale(1.05) rotate(2deg); }
+  70% { transform: scale(0.9) rotate(-1deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes drop-success {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.animate-drop-success {
+  animation: drop-success 0.3s ease-out;
+}
