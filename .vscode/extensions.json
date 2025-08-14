@@ -1,0 +1,18 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "dsznajder.es7-react-js-snippets",
+    "dbaeumer.vscode-eslint",
+    "antfu.vite",
+    "vitest.explorer",
+    "eamodio.gitlens",
+    "github.vscode-pull-request-github",
+    "visualstudioexptteam.vscodeintellicode",
+    "christian-kohler.npm-intellisense",
+    "heybourn.headwind",
+    "stivo.tailwind-fold",
+    "github.copilot",
+    "github.copilot-chat"
+  ]
+}
