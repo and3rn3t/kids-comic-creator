@@ -73,7 +73,7 @@ function Open-File-VSCode {
         [int]$Line = 1
     )
     if (Test-Path $File) {
-        code --goto "$File:$Line:1"
+        code --goto "$($File):$($Line):1"
     } else {
         Write-Host "❌ File not found: $File" -ForegroundColor Red
     }
@@ -242,7 +242,7 @@ function Show-Project-Info {
         Write-Host "📚 Key Dependencies:" -ForegroundColor Blue
         @('react', 'typescript', 'vite', 'tailwindcss', '@radix-ui/react-dialog') | ForEach-Object {
             if ($pkg.dependencies.$_) {
-                Write-Host "   $_: $($pkg.dependencies.$_)" -ForegroundColor Gray
+                Write-Host "   ${_}: $($pkg.dependencies.$_)" -ForegroundColor Gray
             }
         }
     }
@@ -284,14 +284,14 @@ function Show-Current-Tasks {
         Write-Host "🔍 Found TODOs in code:" -ForegroundColor Yellow
         $todos | ForEach-Object {
             $file = Split-Path $_.Filename -Leaf
-            Write-Host "   $file:$($_.LineNumber): $($_.Line.Trim())" -ForegroundColor Gray
+            Write-Host "   ${file}:$($_.LineNumber): $($_.Line.Trim())" -ForegroundColor Gray
         }
     }
     
     # Check for README or TODO files
     @('TODO.md', 'TASKS.md', 'README.md') | ForEach-Object {
         if (Test-Path $_) {
-            Write-Host "📄 $_:" -ForegroundColor Green
+            Write-Host "📄 ${_}:" -ForegroundColor Green
             Get-Content $_ | Select-Object -First 5 | ForEach-Object {
                 Write-Host "   $_" -ForegroundColor Gray
             }
